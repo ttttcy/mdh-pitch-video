@@ -17,10 +17,10 @@
     <meta property="og:type" content="video.other" />
     <meta property="og:image" content="video-cover.jpg" />
     <meta property="og:url" content="https://ttttcy.github.io/mdh-pitch-video/" />
-    <meta property="og:video" content="https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v" />
+    <meta property="og:video" content="https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video.mp4" />
     <meta property="og:video:type" content="video/mp4" />
-    <meta property="og:video:width" content="1920" />
-    <meta property="og:video:height" content="1080" />
+    <meta property="og:video:width" content="3840" />
+    <meta property="og:video:height" content="2160" />
     <title>Media Detective Hub | UNESCO Youth Hackathon 2026</title>
     <link rel="preconnect" href="https://github.com" />
     <link rel="preconnect" href="https://release-assets.githubusercontent.com" crossorigin />
@@ -293,29 +293,6 @@
         gap: 8px 16px;
       }
 
-      .quality-picker {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--muted);
-        white-space: nowrap;
-      }
-
-      .quality-picker select {
-        min-height: 32px;
-        padding: 4px 30px 4px 10px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        color: var(--ink);
-        background: #101b18;
-        font: inherit;
-      }
-
-      .quality-picker select:focus-visible {
-        outline: 2px solid var(--green);
-        outline-offset: 2px;
-      }
-
       .quality::before {
         width: 7px;
         height: 7px;
@@ -323,6 +300,55 @@
         background: var(--green);
         box-shadow: 0 0 14px rgba(98, 230, 167, 0.9);
         content: "";
+      }
+
+      .download-button {
+        display: inline-flex;
+        min-height: 52px;
+        align-items: center;
+        justify-content: center;
+        gap: 11px;
+        padding: 9px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 12px;
+        color: #03100c;
+        background: var(--green);
+        box-shadow: 0 10px 28px rgba(98, 230, 167, 0.16);
+        text-decoration: none;
+        touch-action: manipulation;
+      }
+
+      .download-button:hover {
+        background: #80edba;
+        transform: translateY(-1px);
+      }
+
+      .download-button:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 3px;
+      }
+
+      .download-button svg {
+        width: 21px;
+        height: 21px;
+        flex: 0 0 auto;
+      }
+
+      .download-copy {
+        display: grid;
+        gap: 1px;
+        text-align: left;
+      }
+
+      .download-copy strong {
+        font-size: 0.84rem;
+        line-height: 1.25;
+      }
+
+      .download-copy small {
+        color: rgba(3, 16, 12, 0.68);
+        font-size: 0.7rem;
+        line-height: 1.25;
       }
 
       a {
@@ -354,6 +380,10 @@
 
         .player-meta {
           gap: 8px;
+        }
+
+        .download-button {
+          width: 100%;
         }
 
         .transport {
@@ -430,19 +460,27 @@
         </div>
         <div class="player-meta">
           <div class="meta-left">
-            <span class="quality" id="quality-label">1080p Smooth · Network optimized</span>
-            <span class="status" id="status" role="status">Loading video details…</span>
+            <span class="quality" id="quality-label">4K Original · Full quality</span>
+            <span class="status" id="status" role="status">Loading original video…</span>
+            <span id="video-details">3840×2160 · MP4</span>
           </div>
-          <span id="video-details">MP4</span>
-          <label class="quality-picker" for="quality-select">
-            Playback
-            <select id="quality-select">
-              <option value="mobile">Mobile 540p</option>
-              <option value="smooth" selected>1080p Smooth</option>
-              <option value="original">4K Original</option>
-            </select>
-          </label>
-          <a id="direct-link" href="#">Open 4K original</a>
+          <a
+            class="download-button"
+            id="download-link"
+            href="#"
+            target="_blank"
+            rel="noopener"
+            download="media-detective-hub-4k.mp4"
+            aria-label="Download original 4K video, 556 megabytes"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 18v2h14v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="download-copy">
+              <strong>Download original 4K video</strong>
+              <small>MP4 · 556 MB</small>
+            </span>
+          </a>
         </div>
       </section>
 
@@ -453,31 +491,18 @@
     </main>
 
     <script>
-      const PRODUCTION_STREAM_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v";
       const PRODUCTION_ORIGINAL_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video.mp4";
-      const MOBILE_STREAM_URL = "video-mobile-540p.mp4";
       const localHostnames = new Set(["localhost", "127.0.0.1", "::1"]);
       const isLocalPlayback = window.location.protocol === "file:"
         || localHostnames.has(window.location.hostname);
-      const productionUrlsAreReady = PRODUCTION_STREAM_URL.startsWith("https://")
-        && PRODUCTION_ORIGINAL_URL.startsWith("https://");
-      const sourceUrls = isLocalPlayback || !productionUrlsAreReady
-        ? {
-            mobile: MOBILE_STREAM_URL,
-            smooth: "media/video-web.m4v",
-            original: "media/video.mp4",
-          }
-        : {
-            mobile: MOBILE_STREAM_URL,
-            smooth: PRODUCTION_STREAM_URL,
-            original: PRODUCTION_ORIGINAL_URL,
-          };
+      const originalVideoUrl = isLocalPlayback
+        ? "media/video.mp4"
+        : PRODUCTION_ORIGINAL_URL;
 
       const video = document.querySelector("#pitch-video");
       const status = document.querySelector("#status");
       const details = document.querySelector("#video-details");
-      const directLink = document.querySelector("#direct-link");
-      const qualitySelect = document.querySelector("#quality-select");
+      const downloadLink = document.querySelector("#download-link");
       const qualityLabel = document.querySelector("#quality-label");
       const playerShell = document.querySelector(".player-shell");
       const centerPlay = document.querySelector("#center-play");
@@ -493,12 +518,9 @@
       const PAUSE_ICON = "M7 5h4v14H7V5Zm6 0h4v14h-4V5Z";
       const SOUND_ICON = "M4 9v6h4l5 4V5L8 9H4Zm11.5.2a4 4 0 0 1 0 5.6l1.4 1.4a6 6 0 0 0 0-8.4l-1.4 1.4Z";
       const MUTED_ICON = "M4 9v6h4l5 4V5L8 9H4Zm12.2 1.6-1.4-1.4L13 11l-1.8-1.8-1.4 1.4 1.8 1.8-1.8 1.8 1.4 1.4 1.8-1.8 1.8 1.8 1.4-1.4-1.8-1.8 1.8-1.8Z";
-      const prefersMobileStream = window.matchMedia("(max-width: 760px), (pointer: coarse)").matches;
-      let activeQuality = prefersMobileStream ? "mobile" : "smooth";
 
-      qualitySelect.value = activeQuality;
-      video.src = sourceUrls[activeQuality];
-      directLink.href = sourceUrls.original;
+      video.src = originalVideoUrl;
+      downloadLink.href = originalVideoUrl;
 
       const formatDuration = (seconds) => {
         if (!Number.isFinite(seconds)) return "0:00";
@@ -559,46 +581,16 @@
           ? `${video.videoWidth}×${video.videoHeight}`
           : "Original resolution";
         details.textContent = `${resolution} · ${formatDuration(video.duration)} · MP4`;
-        qualityLabel.textContent = activeQuality === "mobile"
-          ? "Mobile 540p · Safari compatible"
-          : activeQuality === "smooth"
-            ? "1080p Smooth · Network optimized"
-            : "4K Original · Lossless Fast Start";
+        qualityLabel.textContent = "4K Original · Full quality";
         durationTime.textContent = formatDuration(video.duration);
         timeline.disabled = false;
         updateTimeline();
         status.hidden = true;
       });
 
-      qualitySelect.addEventListener("change", () => {
-        const nextQuality = qualitySelect.value;
-        if (nextQuality === activeQuality) return;
-
-        const resumeTime = Number.isFinite(video.currentTime) ? video.currentTime : 0;
-        const shouldResume = !video.paused;
-        activeQuality = nextQuality;
-        status.textContent = nextQuality === "mobile"
-          ? "Loading mobile-compatible video…"
-          : nextQuality === "smooth"
-            ? "Loading network-optimized video…"
-            : "Loading 4K original…";
-        status.hidden = false;
-        video.src = sourceUrls[nextQuality];
-        video.load();
-
-        video.addEventListener("loadedmetadata", () => {
-          video.currentTime = Math.min(resumeTime, Math.max(0, video.duration - 0.25));
-          if (shouldResume) video.play().catch(() => {});
-        }, { once: true });
-      });
-
       video.addEventListener("waiting", () => {
         if (!video.paused) {
-          status.textContent = activeQuality === "smooth"
-            ? "Buffering network-optimized video…"
-            : activeQuality === "mobile"
-              ? "Buffering mobile-compatible video…"
-              : "Buffering 4K original…";
+          status.textContent = "Buffering original 4K video…";
           status.hidden = false;
         }
       });
@@ -654,9 +646,7 @@
       });
 
       video.addEventListener("error", () => {
-        status.textContent = activeQuality === "mobile"
-          ? "The mobile video could not load. Check your connection and retry."
-          : "This source could not load. Choose Mobile 540p or use the direct link.";
+        status.textContent = "This browser could not play the 4K original. Use the download button.";
         status.hidden = false;
       });
 
