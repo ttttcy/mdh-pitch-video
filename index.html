@@ -179,6 +179,7 @@
         color: #e8efeb;
         background: transparent;
         cursor: pointer;
+        touch-action: manipulation;
       }
 
       .transport-button:hover {
@@ -188,6 +189,7 @@
       }
 
       .transport-button svg {
+        display: block;
         width: 19px;
         height: 19px;
       }
@@ -361,8 +363,8 @@
         }
 
         .transport-button {
-          width: 32px;
-          height: 32px;
+          width: 40px;
+          height: 40px;
         }
 
         .timecode {
@@ -393,12 +395,12 @@
           <video
             id="pitch-video"
             playsinline
+            webkit-playsinline
             preload="metadata"
             poster="video-cover.jpg"
             aria-label="Media Detective Hub pitch video"
             tabindex="0"
           >
-            <source id="pitch-source" type="video/mp4" />
             Your browser does not support HTML5 video.
           </video>
           <button class="center-play" id="center-play" type="button" aria-label="Play video">
@@ -409,21 +411,15 @@
         </div>
         <div class="transport" role="group" aria-label="Video controls">
           <button class="transport-button" id="play-button" type="button" aria-label="Play video">
-            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 4.7v14.6L19 12 7 4.7Z" fill="currentColor" />
-            </svg>
-            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden>
-              <path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z" fill="currentColor" />
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path id="play-icon-path" d="M7 4.7v14.6L19 12 7 4.7Z" fill="currentColor" />
             </svg>
           </button>
           <span class="timecode"><span id="current-time">0:00</span> / <span id="duration-time">0:00</span></span>
           <input class="timeline" id="timeline" type="range" min="0" max="1000" value="0" step="1" aria-label="Video progress" disabled />
           <button class="transport-button" id="mute-button" type="button" aria-label="Mute video">
-            <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 9v6h4l5 4V5L8 9H4Zm11.5.2a4 4 0 0 1 0 5.6l1.4 1.4a6 6 0 0 0 0-8.4l-1.4 1.4Z" fill="currentColor" />
-            </svg>
-            <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" hidden>
-              <path d="M4 9v6h4l5 4V5L8 9H4Zm12.2 1.6-1.4-1.4L13 11l-1.8-1.8-1.4 1.4 1.8 1.8-1.8 1.8 1.4 1.4 1.8-1.8 1.8 1.8 1.4-1.4-1.8-1.8 1.8-1.8Z" fill="currentColor" />
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path id="sound-icon-path" d="M4 9v6h4l5 4V5L8 9H4Zm11.5.2a4 4 0 0 1 0 5.6l1.4 1.4a6 6 0 0 0 0-8.4l-1.4 1.4Z" fill="currentColor" />
             </svg>
           </button>
           <button class="transport-button" id="fullscreen-button" type="button" aria-label="Enter full screen">
@@ -441,6 +437,7 @@
           <label class="quality-picker" for="quality-select">
             Playback
             <select id="quality-select">
+              <option value="mobile">Mobile 540p</option>
               <option value="smooth" selected>1080p Smooth</option>
               <option value="original">4K Original</option>
             </select>
@@ -458,6 +455,7 @@
     <script>
       const PRODUCTION_STREAM_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v";
       const PRODUCTION_ORIGINAL_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video.mp4";
+      const MOBILE_STREAM_URL = "video-mobile-540p.mp4";
       const localHostnames = new Set(["localhost", "127.0.0.1", "::1"]);
       const isLocalPlayback = window.location.protocol === "file:"
         || localHostnames.has(window.location.hostname);
@@ -465,16 +463,17 @@
         && PRODUCTION_ORIGINAL_URL.startsWith("https://");
       const sourceUrls = isLocalPlayback || !productionUrlsAreReady
         ? {
+            mobile: MOBILE_STREAM_URL,
             smooth: "media/video-web.m4v",
             original: "media/video.mp4",
           }
         : {
+            mobile: MOBILE_STREAM_URL,
             smooth: PRODUCTION_STREAM_URL,
             original: PRODUCTION_ORIGINAL_URL,
           };
 
       const video = document.querySelector("#pitch-video");
-      const source = document.querySelector("#pitch-source");
       const status = document.querySelector("#status");
       const details = document.querySelector("#video-details");
       const directLink = document.querySelector("#direct-link");
@@ -483,18 +482,22 @@
       const playerShell = document.querySelector(".player-shell");
       const centerPlay = document.querySelector("#center-play");
       const playButton = document.querySelector("#play-button");
-      const playIcon = document.querySelector(".icon-play");
-      const pauseIcon = document.querySelector(".icon-pause");
+      const playIconPath = document.querySelector("#play-icon-path");
       const timeline = document.querySelector("#timeline");
       const currentTime = document.querySelector("#current-time");
       const durationTime = document.querySelector("#duration-time");
       const muteButton = document.querySelector("#mute-button");
-      const soundIcon = document.querySelector(".icon-sound");
-      const mutedIcon = document.querySelector(".icon-muted");
+      const soundIconPath = document.querySelector("#sound-icon-path");
       const fullscreenButton = document.querySelector("#fullscreen-button");
-      let activeQuality = "smooth";
+      const PLAY_ICON = "M7 4.7v14.6L19 12 7 4.7Z";
+      const PAUSE_ICON = "M7 5h4v14H7V5Zm6 0h4v14h-4V5Z";
+      const SOUND_ICON = "M4 9v6h4l5 4V5L8 9H4Zm11.5.2a4 4 0 0 1 0 5.6l1.4 1.4a6 6 0 0 0 0-8.4l-1.4 1.4Z";
+      const MUTED_ICON = "M4 9v6h4l5 4V5L8 9H4Zm12.2 1.6-1.4-1.4L13 11l-1.8-1.8-1.4 1.4 1.8 1.8-1.8 1.8 1.4 1.4 1.8-1.8 1.8 1.8 1.4-1.4-1.8-1.8 1.8-1.8Z";
+      const prefersMobileStream = window.matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+      let activeQuality = prefersMobileStream ? "mobile" : "smooth";
 
-      source.src = sourceUrls.smooth;
+      qualitySelect.value = activeQuality;
+      video.src = sourceUrls[activeQuality];
       directLink.href = sourceUrls.original;
 
       const formatDuration = (seconds) => {
@@ -506,8 +509,7 @@
 
       const updatePlayState = () => {
         const isPlaying = !video.paused && !video.ended;
-        playIcon.hidden = isPlaying;
-        pauseIcon.hidden = !isPlaying;
+        playIconPath.setAttribute("d", isPlaying ? PAUSE_ICON : PLAY_ICON);
         centerPlay.hidden = isPlaying;
         playButton.setAttribute("aria-label", isPlaying ? "Pause video" : "Play video");
         centerPlay.setAttribute("aria-label", video.ended ? "Replay video" : "Play video");
@@ -523,15 +525,16 @@
 
       const updateMuteState = () => {
         const isMuted = video.muted || video.volume === 0;
-        soundIcon.hidden = isMuted;
-        mutedIcon.hidden = !isMuted;
+        soundIconPath.setAttribute("d", isMuted ? MUTED_ICON : SOUND_ICON);
         muteButton.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
       };
 
       const togglePlayback = () => {
         if (video.paused || video.ended) {
-          video.play().catch(() => {
-            status.textContent = "Select Play to start the video.";
+          video.play().catch((error) => {
+            status.textContent = error?.name === "NotAllowedError"
+              ? "Tap Play once more to start the video."
+              : "This browser could not start playback. Try Mobile 540p.";
             status.hidden = false;
           });
         } else {
@@ -556,9 +559,11 @@
           ? `${video.videoWidth}×${video.videoHeight}`
           : "Original resolution";
         details.textContent = `${resolution} · ${formatDuration(video.duration)} · MP4`;
-        qualityLabel.textContent = activeQuality === "smooth"
-          ? "1080p Smooth · Network optimized"
-          : "4K Original · Lossless Fast Start";
+        qualityLabel.textContent = activeQuality === "mobile"
+          ? "Mobile 540p · Safari compatible"
+          : activeQuality === "smooth"
+            ? "1080p Smooth · Network optimized"
+            : "4K Original · Lossless Fast Start";
         durationTime.textContent = formatDuration(video.duration);
         timeline.disabled = false;
         updateTimeline();
@@ -572,11 +577,13 @@
         const resumeTime = Number.isFinite(video.currentTime) ? video.currentTime : 0;
         const shouldResume = !video.paused;
         activeQuality = nextQuality;
-        status.textContent = nextQuality === "smooth"
-          ? "Loading network-optimized video…"
-          : "Loading 4K original…";
+        status.textContent = nextQuality === "mobile"
+          ? "Loading mobile-compatible video…"
+          : nextQuality === "smooth"
+            ? "Loading network-optimized video…"
+            : "Loading 4K original…";
         status.hidden = false;
-        source.src = sourceUrls[nextQuality];
+        video.src = sourceUrls[nextQuality];
         video.load();
 
         video.addEventListener("loadedmetadata", () => {
@@ -589,7 +596,9 @@
         if (!video.paused) {
           status.textContent = activeQuality === "smooth"
             ? "Buffering network-optimized video…"
-            : "Buffering 4K original…";
+            : activeQuality === "mobile"
+              ? "Buffering mobile-compatible video…"
+              : "Buffering 4K original…";
           status.hidden = false;
         }
       });
@@ -645,7 +654,9 @@
       });
 
       video.addEventListener("error", () => {
-        status.textContent = "The embedded player could not load. Use the direct video link below.";
+        status.textContent = activeQuality === "mobile"
+          ? "The mobile video could not load. Check your connection and retry."
+          : "This source could not load. Choose Mobile 540p or use the direct link.";
         status.hidden = false;
       });
 
