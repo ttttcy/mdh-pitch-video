@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07110f" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta
+      name="description"
+      content="Media Detective Hub — UNESCO Youth Hackathon 2026 pitch video."
+    />
+    <meta property="og:title" content="Media Detective Hub | UNESCO Youth Hackathon 2026" />
+    <meta
+      property="og:description"
+      content="An immersive media and information literacy training tool for youth in the AI era."
+    />
+    <meta property="og:type" content="video.other" />
+    <meta property="og:image" content="video-cover.jpg" />
+    <meta property="og:url" content="https://ttttcy.github.io/mdh-pitch-video/" />
+    <meta property="og:video" content="https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1920" />
+    <meta property="og:video:height" content="1080" />
+    <title>Media Detective Hub | UNESCO Youth Hackathon 2026</title>
+    <link rel="preconnect" href="https://github.com" />
+    <link rel="preconnect" href="https://release-assets.githubusercontent.com" crossorigin />
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #f3f6f2;
+        --muted: #a9b6b0;
+        --line: rgba(255, 255, 255, 0.12);
+        --green: #62e6a7;
+        --bg: #07110f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background: var(--bg);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 18% 0%, rgba(47, 144, 108, 0.18), transparent 34rem),
+          radial-gradient(circle at 96% 82%, rgba(13, 93, 78, 0.18), transparent 36rem),
+          var(--bg);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      main {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: clamp(30px, 6vw, 72px) 0 40px;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 14px;
+        color: var(--green);
+        font-size: 0.76rem;
+        font-weight: 750;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 28px;
+        height: 1px;
+        background: currentColor;
+        content: "";
+      }
+
+      h1 {
+        max-width: 920px;
+        margin: 0;
+        font-size: clamp(2.15rem, 6vw, 5.25rem);
+        font-weight: 720;
+        letter-spacing: -0.055em;
+        line-height: 0.96;
+      }
+
+      .subtitle {
+        max-width: 760px;
+        margin: 20px 0 clamp(28px, 5vw, 46px);
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        line-height: 1.55;
+      }
+
+      .player-shell {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: clamp(14px, 2vw, 24px);
+        background: #000;
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      }
+
+      .video-frame {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: #000;
+      }
+
+      video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+        filter: brightness(1.18) saturate(1.04);
+      }
+
+      .center-play {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        display: grid;
+        width: 70px;
+        height: 70px;
+        padding: 0;
+        transform: translate(-50%, -50%);
+        place-items: center;
+        border: 1px solid rgba(98, 230, 167, 0.72);
+        border-radius: 50%;
+        color: var(--green);
+        background: rgba(5, 17, 14, 0.86);
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.36);
+        cursor: pointer;
+      }
+
+      .center-play:hover {
+        transform: translate(-50%, -50%) scale(1.04);
+      }
+
+      .center-play:focus-visible,
+      .transport-button:focus-visible,
+      .timeline:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 3px;
+      }
+
+      .center-play[hidden] {
+        display: none;
+      }
+
+      .center-play svg {
+        width: 26px;
+        margin-left: 4px;
+      }
+
+      .transport {
+        display: grid;
+        grid-template-columns: auto auto minmax(100px, 1fr) auto auto;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        border-top: 1px solid var(--line);
+        background: #0a1210;
+      }
+
+      .transport-button {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        place-items: center;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: #e8efeb;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .transport-button:hover {
+        border-color: var(--line);
+        color: var(--green);
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .transport-button svg {
+        width: 19px;
+        height: 19px;
+      }
+
+      .timecode {
+        min-width: 82px;
+        color: #bac6c0;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.74rem;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .timeline {
+        --progress: 0%;
+        width: 100%;
+        height: 18px;
+        margin: 0;
+        appearance: none;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .timeline::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 99px;
+        background: linear-gradient(
+          90deg,
+          var(--green) 0 var(--progress),
+          rgba(255, 255, 255, 0.18) var(--progress) 100%
+        );
+      }
+
+      .timeline::-webkit-slider-thumb {
+        width: 14px;
+        height: 14px;
+        margin-top: -5px;
+        appearance: none;
+        border: 2px solid #0a1210;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 1px rgba(98, 230, 167, 0.7);
+      }
+
+      .timeline::-moz-range-track {
+        height: 4px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .timeline::-moz-range-progress {
+        height: 4px;
+        border-radius: 99px;
+        background: var(--green);
+      }
+
+      .timeline::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border: 2px solid #0a1210;
+        border-radius: 50%;
+        background: var(--green);
+      }
+
+      .status {
+        width: fit-content;
+        max-width: 100%;
+        color: #d6ded9;
+        font-size: 0.82rem;
+        pointer-events: none;
+      }
+
+      .status[hidden] {
+        display: none;
+      }
+
+      .player-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 18px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.035);
+        font-size: 0.82rem;
+      }
+
+      .quality {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .meta-left {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+      }
+
+      .quality-picker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .quality-picker select {
+        min-height: 32px;
+        padding: 4px 30px 4px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: #101b18;
+        font: inherit;
+      }
+
+      .quality-picker select:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 2px;
+      }
+
+      .quality::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 14px rgba(98, 230, 167, 0.9);
+        content: "";
+      }
+
+      a {
+        color: var(--ink);
+        text-underline-offset: 3px;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        margin-top: 20px;
+        color: #7f9189;
+        font-size: 0.76rem;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 640px) {
+        main {
+          width: min(100% - 20px, 1180px);
+          padding-top: 26px;
+        }
+
+        .player-meta,
+        footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .player-meta {
+          gap: 8px;
+        }
+
+        .transport {
+          grid-template-columns: auto auto minmax(58px, 1fr) auto auto;
+          gap: 6px;
+          padding: 8px;
+        }
+
+        .transport-button {
+          width: 32px;
+          height: 32px;
+        }
+
+        .timecode {
+          min-width: 70px;
+          font-size: 0.66rem;
+        }
+
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">UNESCO Youth Hackathon 2026</p>
+      <h1>Media Detective Hub</h1>
+      <p class="subtitle">
+        An immersive media and information literacy training tool for youth in the AI era.
+      </p>
+
+      <section class="player-shell" aria-label="Pitch video player">
+        <div class="video-frame">
+          <video
+            id="pitch-video"
+            playsinline
+            preload="metadata"
+            poster="video-cover.jpg"
+            aria-label="Media Detective Hub pitch video"
+            tabindex="0"
+          >
+            <source id="pitch-source" type="video/mp4" />
+            Your browser does not support HTML5 video.
+          </video>
+          <button class="center-play" id="center-play" type="button" aria-label="Play video">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 4.7v14.6L19 12 7 4.7Z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+        <div class="transport" role="group" aria-label="Video controls">
+          <button class="transport-button" id="play-button" type="button" aria-label="Play video">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 4.7v14.6L19 12 7 4.7Z" fill="currentColor" />
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden>
+              <path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z" fill="currentColor" />
+            </svg>
+          </button>
+          <span class="timecode"><span id="current-time">0:00</span> / <span id="duration-time">0:00</span></span>
+          <input class="timeline" id="timeline" type="range" min="0" max="1000" value="0" step="1" aria-label="Video progress" disabled />
+          <button class="transport-button" id="mute-button" type="button" aria-label="Mute video">
+            <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9v6h4l5 4V5L8 9H4Zm11.5.2a4 4 0 0 1 0 5.6l1.4 1.4a6 6 0 0 0 0-8.4l-1.4 1.4Z" fill="currentColor" />
+            </svg>
+            <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" hidden>
+              <path d="M4 9v6h4l5 4V5L8 9H4Zm12.2 1.6-1.4-1.4L13 11l-1.8-1.8-1.4 1.4 1.8 1.8-1.8 1.8 1.4 1.4 1.8-1.8 1.8 1.8 1.4-1.4-1.8-1.8 1.8-1.8Z" fill="currentColor" />
+            </svg>
+          </button>
+          <button class="transport-button" id="fullscreen-button" type="button" aria-label="Enter full screen">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 9V5h4M15 5h4v4M19 15v4h-4M9 19H5v-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="player-meta">
+          <div class="meta-left">
+            <span class="quality" id="quality-label">1080p Smooth · Network optimized</span>
+            <span class="status" id="status" role="status">Loading video details…</span>
+          </div>
+          <span id="video-details">MP4</span>
+          <label class="quality-picker" for="quality-select">
+            Playback
+            <select id="quality-select">
+              <option value="smooth" selected>1080p Smooth</option>
+              <option value="original">4K Original</option>
+            </select>
+          </label>
+          <a id="direct-link" href="#">Open 4K original</a>
+        </div>
+      </section>
+
+      <footer>
+        <span>Submitted by SWUPL Media Literacy Public Education Base</span>
+        <span>Pitch video · Maximum 3 minutes</span>
+      </footer>
+    </main>
+
+    <script>
+      const PRODUCTION_STREAM_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v";
+      const PRODUCTION_ORIGINAL_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video.mp4";
+      const localHostnames = new Set(["localhost", "127.0.0.1", "::1"]);
+      const isLocalPlayback = window.location.protocol === "file:"
+        || localHostnames.has(window.location.hostname);
+      const productionUrlsAreReady = PRODUCTION_STREAM_URL.startsWith("https://")
+        && PRODUCTION_ORIGINAL_URL.startsWith("https://");
+      const sourceUrls = isLocalPlayback || !productionUrlsAreReady
+        ? {
+            smooth: "media/video-web.m4v",
+            original: "media/video.mp4",
+          }
+        : {
+            smooth: PRODUCTION_STREAM_URL,
+            original: PRODUCTION_ORIGINAL_URL,
+          };
+
+      const video = document.querySelector("#pitch-video");
+      const source = document.querySelector("#pitch-source");
+      const status = document.querySelector("#status");
+      const details = document.querySelector("#video-details");
+      const directLink = document.querySelector("#direct-link");
+      const qualitySelect = document.querySelector("#quality-select");
+      const qualityLabel = document.querySelector("#quality-label");
+      const playerShell = document.querySelector(".player-shell");
+      const centerPlay = document.querySelector("#center-play");
+      const playButton = document.querySelector("#play-button");
+      const playIcon = document.querySelector(".icon-play");
+      const pauseIcon = document.querySelector(".icon-pause");
+      const timeline = document.querySelector("#timeline");
+      const currentTime = document.querySelector("#current-time");
+      const durationTime = document.querySelector("#duration-time");
+      const muteButton = document.querySelector("#mute-button");
+      const soundIcon = document.querySelector(".icon-sound");
+      const mutedIcon = document.querySelector(".icon-muted");
+      const fullscreenButton = document.querySelector("#fullscreen-button");
+      let activeQuality = "smooth";
+
+      source.src = sourceUrls.smooth;
+      directLink.href = sourceUrls.original;
+
+      const formatDuration = (seconds) => {
+        if (!Number.isFinite(seconds)) return "0:00";
+        const minutes = Math.floor(seconds / 60);
+        const remainder = Math.floor(seconds % 60).toString().padStart(2, "0");
+        return `${minutes}:${remainder}`;
+      };
+
+      const updatePlayState = () => {
+        const isPlaying = !video.paused && !video.ended;
+        playIcon.hidden = isPlaying;
+        pauseIcon.hidden = !isPlaying;
+        centerPlay.hidden = isPlaying;
+        playButton.setAttribute("aria-label", isPlaying ? "Pause video" : "Play video");
+        centerPlay.setAttribute("aria-label", video.ended ? "Replay video" : "Play video");
+      };
+
+      const updateTimeline = () => {
+        const hasDuration = Number.isFinite(video.duration) && video.duration > 0;
+        const ratio = hasDuration ? Math.min(1, Math.max(0, video.currentTime / video.duration)) : 0;
+        timeline.value = Math.round(ratio * 1000);
+        timeline.style.setProperty("--progress", `${ratio * 100}%`);
+        currentTime.textContent = formatDuration(video.currentTime);
+      };
+
+      const updateMuteState = () => {
+        const isMuted = video.muted || video.volume === 0;
+        soundIcon.hidden = isMuted;
+        mutedIcon.hidden = !isMuted;
+        muteButton.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
+      };
+
+      const togglePlayback = () => {
+        if (video.paused || video.ended) {
+          video.play().catch(() => {
+            status.textContent = "Select Play to start the video.";
+            status.hidden = false;
+          });
+        } else {
+          video.pause();
+        }
+      };
+
+      const toggleFullscreen = () => {
+        if (document.fullscreenElement) {
+          document.exitFullscreen?.();
+          return;
+        }
+        if (playerShell.requestFullscreen) {
+          playerShell.requestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+          video.webkitEnterFullscreen();
+        }
+      };
+
+      video.addEventListener("loadedmetadata", () => {
+        const resolution = video.videoWidth && video.videoHeight
+          ? `${video.videoWidth}×${video.videoHeight}`
+          : "Original resolution";
+        details.textContent = `${resolution} · ${formatDuration(video.duration)} · MP4`;
+        qualityLabel.textContent = activeQuality === "smooth"
+          ? "1080p Smooth · Network optimized"
+          : "4K Original · Lossless Fast Start";
+        durationTime.textContent = formatDuration(video.duration);
+        timeline.disabled = false;
+        updateTimeline();
+        status.hidden = true;
+      });
+
+      qualitySelect.addEventListener("change", () => {
+        const nextQuality = qualitySelect.value;
+        if (nextQuality === activeQuality) return;
+
+        const resumeTime = Number.isFinite(video.currentTime) ? video.currentTime : 0;
+        const shouldResume = !video.paused;
+        activeQuality = nextQuality;
+        status.textContent = nextQuality === "smooth"
+          ? "Loading network-optimized video…"
+          : "Loading 4K original…";
+        status.hidden = false;
+        source.src = sourceUrls[nextQuality];
+        video.load();
+
+        video.addEventListener("loadedmetadata", () => {
+          video.currentTime = Math.min(resumeTime, Math.max(0, video.duration - 0.25));
+          if (shouldResume) video.play().catch(() => {});
+        }, { once: true });
+      });
+
+      video.addEventListener("waiting", () => {
+        if (!video.paused) {
+          status.textContent = activeQuality === "smooth"
+            ? "Buffering network-optimized video…"
+            : "Buffering 4K original…";
+          status.hidden = false;
+        }
+      });
+
+      video.addEventListener("playing", () => {
+        status.hidden = true;
+      });
+
+      video.addEventListener("play", updatePlayState);
+      video.addEventListener("pause", updatePlayState);
+      video.addEventListener("ended", updatePlayState);
+      video.addEventListener("timeupdate", updateTimeline);
+      video.addEventListener("volumechange", updateMuteState);
+
+      centerPlay.addEventListener("click", togglePlayback);
+      playButton.addEventListener("click", togglePlayback);
+      video.addEventListener("click", togglePlayback);
+
+      timeline.addEventListener("input", () => {
+        if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+        video.currentTime = (Number(timeline.value) / 1000) * video.duration;
+        updateTimeline();
+      });
+
+      muteButton.addEventListener("click", () => {
+        video.muted = !video.muted;
+      });
+
+      fullscreenButton.addEventListener("click", toggleFullscreen);
+      document.addEventListener("fullscreenchange", () => {
+        fullscreenButton.setAttribute(
+          "aria-label",
+          document.fullscreenElement ? "Exit full screen" : "Enter full screen",
+        );
+      });
+
+      video.addEventListener("keydown", (event) => {
+        const key = event.key.toLowerCase();
+        if (key === " " || key === "enter") {
+          event.preventDefault();
+          togglePlayback();
+        } else if (key === "arrowleft") {
+          event.preventDefault();
+          video.currentTime = Math.max(0, video.currentTime - 5);
+        } else if (key === "arrowright") {
+          event.preventDefault();
+          video.currentTime = Math.min(video.duration || 0, video.currentTime + 5);
+        } else if (key === "m") {
+          video.muted = !video.muted;
+        } else if (key === "f") {
+          toggleFullscreen();
+        }
+      });
+
+      video.addEventListener("error", () => {
+        status.textContent = "The embedded player could not load. Use the direct video link below.";
+        status.hidden = false;
+      });
+
+      updatePlayState();
+      updateMuteState();
+      video.load();
+    </script>
+  </body>
+</html>
