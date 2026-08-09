@@ -527,14 +527,6 @@
       let playbackRequested = false;
       let isSwitchingSegment = false;
       let hasEnded = false;
-      let preloadedSegment = -1;
-
-      const segmentPreloader = document.createElement("video");
-      segmentPreloader.muted = true;
-      segmentPreloader.playsInline = true;
-      segmentPreloader.preload = "metadata";
-      segmentPreloader.hidden = true;
-      document.body.append(segmentPreloader);
 
       downloadLink.href = ORIGINAL_DOWNLOAD_URL;
 
@@ -578,15 +570,6 @@
         status.hidden = false;
         playbackRequested = false;
         updatePlayState();
-      };
-
-      const primeNextSegment = () => {
-        const nextSegment = activeSegment + 1;
-        if (nextSegment >= SEGMENTS.length || nextSegment === preloadedSegment) return;
-        preloadedSegment = nextSegment;
-        segmentPreloader.preload = "auto";
-        segmentPreloader.src = SEGMENTS[nextSegment].url;
-        segmentPreloader.load();
       };
 
       const loadSegment = (index, localTime = 0, autoplay = false) => {
@@ -673,7 +656,6 @@
         } else {
           status.hidden = true;
         }
-        primeNextSegment();
       });
 
       video.addEventListener("waiting", () => {
@@ -707,7 +689,6 @@
       });
       video.addEventListener("timeupdate", () => {
         updateTimeline();
-        if (SEGMENTS[activeSegment].duration - video.currentTime < 12) primeNextSegment();
       });
       video.addEventListener("volumechange", updateMuteState);
 
