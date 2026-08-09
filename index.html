@@ -17,10 +17,10 @@
     <meta property="og:type" content="video.other" />
     <meta property="og:image" content="video-cover.jpg" />
     <meta property="og:url" content="https://ttttcy.github.io/mdh-pitch-video/" />
-    <meta property="og:video" content="https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video.mp4" />
+    <meta property="og:video" content="https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v" />
     <meta property="og:video:type" content="video/mp4" />
-    <meta property="og:video:width" content="3840" />
-    <meta property="og:video:height" content="2160" />
+    <meta property="og:video:width" content="1920" />
+    <meta property="og:video:height" content="1080" />
     <title>Media Detective Hub | UNESCO Youth Hackathon 2026</title>
     <link rel="preconnect" href="https://github.com" />
     <link rel="preconnect" href="https://release-assets.githubusercontent.com" crossorigin />
@@ -491,43 +491,9 @@
     </main>
 
     <script>
+      const FULL_HD_VIDEO_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video-web.m4v";
       const SEGMENTS = [
-        { url: "media/clip-01.mp4", duration: 6.5 },
-        { url: "media/clip-02.mp4", duration: 3.25 },
-        { url: "media/clip-03.mp4", duration: 3.25 },
-        { url: "media/clip-04.mp4", duration: 3.25 },
-        { url: "media/clip-05.mp4", duration: 3.25 },
-        { url: "media/clip-06.mp4", duration: 6.5 },
-        { url: "media/clip-07.mp4", duration: 6.5 },
-        { url: "media/clip-08.mp4", duration: 6.5 },
-        { url: "media/clip-09.mp4", duration: 6.5 },
-        { url: "media/clip-10.mp4", duration: 3.25 },
-        { url: "media/clip-11.mp4", duration: 3.25 },
-        { url: "media/clip-12.mp4", duration: 6.5 },
-        { url: "media/clip-13.mp4", duration: 6.5 },
-        { url: "media/clip-14.mp4", duration: 6.5 },
-        { url: "media/clip-15.mp4", duration: 6.5 },
-        { url: "media/clip-16.mp4", duration: 6.5 },
-        { url: "media/clip-17.mp4", duration: 3.25 },
-        { url: "media/clip-18a.mp4", duration: 1.625 },
-        { url: "media/clip-18b.mp4", duration: 1.625 },
-        { url: "media/clip-19.mp4", duration: 6.5 },
-        { url: "media/clip-20.mp4", duration: 3.25 },
-        { url: "media/clip-21.mp4", duration: 3.25 },
-        { url: "media/clip-22.mp4", duration: 6.5 },
-        { url: "media/clip-23.mp4", duration: 3.25 },
-        { url: "media/clip-24.mp4", duration: 3.25 },
-        { url: "media/clip-25.mp4", duration: 6.5 },
-        { url: "media/clip-26.mp4", duration: 6.5 },
-        { url: "media/clip-27.mp4", duration: 6.5 },
-        { url: "media/clip-28.mp4", duration: 3.25 },
-        { url: "media/clip-29.mp4", duration: 3.25 },
-        { url: "media/clip-30.mp4", duration: 6.5 },
-        { url: "media/clip-31.mp4", duration: 6.5 },
-        { url: "media/clip-32.mp4", duration: 6.5 },
-        { url: "media/clip-33.mp4", duration: 6.5 },
-        { url: "media/clip-34.mp4", duration: 6.5 },
-        { url: "media/clip-35.mp4", duration: 4.267 },
+        { url: FULL_HD_VIDEO_URL, duration: 179.745 },
       ];
       const ORIGINAL_DOWNLOAD_URL = "https://github.com/ttttcy/mdh-pitch-video/releases/download/unesco-2026/video.mp4";
       const SEGMENT_OFFSETS = SEGMENTS.map((_, index) =>
@@ -790,7 +756,7 @@
       video.addEventListener("error", () => {
         playbackRequested = false;
         isSwitchingSegment = false;
-        status.textContent = "This HD video segment could not load. Refresh the page or use the download button.";
+        status.textContent = "This complete HD video could not load. Refresh the page or use the download button.";
         status.hidden = false;
         updatePlayState();
       });
